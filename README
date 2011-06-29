@@ -4,9 +4,9 @@ Mincamlj は mincamlをScalaとJavaに移植してJVM上でmincamlのコンパ�
 
 はじめにcloneを使ってリポジトリのコピーを作ります。
 
-git clone git@github.com:hsk/mincamljd.git
+git clone git@github.com:hsk/cmincaml.git
 or
-git clone https://hsk@github.com/hsk/mincamlj.git
+git clone https://hsk@github.com/hsk/cmincaml.git 
 
 *リポジトリから最新版を取得
 
