@@ -1,6 +1,8 @@
 package mincaml;
+import mincaml.Syntax._;
 
-class Parse extends Syntax {
+object Parse {
+
 	def g(x:Any):T = x match {
 		case () => Unit()
 		case a:Boolean => Bool(a)

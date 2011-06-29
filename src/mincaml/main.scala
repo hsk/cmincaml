@@ -116,21 +116,19 @@ object Main {
   def optimize(n:Int, e:KNormal.T):KNormal.T = {
     if (n == 0) e else {
       val e1 = Elim(ConstFold(Inline(Assoc(Beta(e)))))
-      if (e == e1) e else optimize((n - 1), edash)
+      if (e == e1) e else optimize((n - 1), e1)
     }
   }
 
   /**
    * バッファをコンパイルしてチャンネルへ出力する
    */
-  def lexbuf(outchan:PrintWriter, inchan:FileReader):Unit = {
-    val yyparser = new Parser(inchan)
-    yyparser.yyparse()
+  def lexbuf(outchan:PrintWriter, inchan:Any):Unit = {
 
     Id.counter = 0
     Typing.extenv = Map()
 
-    val ast:Syntax.T = yyparser.yyval.obj.asInstanceOf[Syntax.T]; println("ast "+ast)
+    val ast:Syntax.T = Parse.g(inchan).asInstanceOf[Syntax.T]
     val typedAst:Syntax.T = Typing(ast); println("typedAst "+typedAst)
     val knormal:KNormal.T = KNormal(typedAst); println("knormal "+knormal)
     val alpha:KNormal.T = Alpha(knormal); println("alpha "+ alpha)
@@ -150,9 +148,16 @@ object Main {
   def file(f:String):Unit = {
     println("file="+f)
     val inchan = new FileReader(f + ".ml")
+    var buf = Array[Char](1024);
+    var str = new StringBuilder();
+    while (true) {
+      val len = inchan.read(buf)
+      str.appendAll(buf, 0, len)
+    }
+
     val outchan = new FileWriter(f + ".s")
     try {
-      lexbuf(new PrintWriter(new BufferedWriter(outchan)), inchan)
+      lexbuf(new PrintWriter(new BufferedWriter(outchan)), str.toString())
       inchan.close()
       outchan.close()
       gcc(f + ".s", f)
