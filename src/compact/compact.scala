@@ -48,13 +48,16 @@ object Compact {
       case _   => -1
     }
     val infixs:(Any => Int) = {
-      case "*" => 20
-      case "/" => 20
+      case ".*" => 20
+      case "./" => 20
+      case ".-" => 10
+      case ".+" => 10
       case "-" => 10
       case "+" => 10
-      case "<=" => 6
+      case "!=" => 6
       case "==" => 5
       case "," => 1
+      case ";" => 0
       case "else" => 3
       case _	 => -1
     }
@@ -65,8 +68,10 @@ object Compact {
     }
 
     val prefixs:(Any => Int) = {
-      case "-" => 100
-      case _	 => -1
+      case "!"  => 100
+      case "-"  => 100
+      case ".-" => 100
+      case _    => -1
     }
 
     val postfixs:(Any => Int) = {

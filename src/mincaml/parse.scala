@@ -25,9 +25,9 @@ object Parse {
     case (a, "!=", b) => LE(g(a), g(b))
     case ("if", "(", a, ")", (b, "else", c)) => If(g(a), g(b), g(c))
     case ("if", "(", a, ")", b) => If(g(a), g(b), Unit())
-    case ("let", (a:String, "=", b)) => Let((a, Type.gentyp()), g(a), g(b))
+    case ("val", (a:String, "=", b)) => Let((a, Type.gentyp()), g(a), g(b))
     case b:String => Var(b)
-    case (("let","rec", ((name:String,"(",p,")"), "=", body)), "in", next) =>
+    case ((name:String, ":", ("def", "(",p,")", body)), ";", next) =>
       LetRec(
         Fundef(
           (name,Type.gentyp()),
