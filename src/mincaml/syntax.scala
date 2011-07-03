@@ -3,7 +3,7 @@ package mincaml;
 
 object Syntax {
   // MinCamlの構文を表現するデータ型 (caml2html: Syntax)
-  sealed abstract case class T()
+  sealed abstract class T
   case class Unit() extends T
   case class Bool(a:Boolean) extends T
   case class Int(a:scala.Int) extends T

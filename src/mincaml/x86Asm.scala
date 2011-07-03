@@ -4,7 +4,7 @@ package mincaml;
 import scala.collection.immutable._;
 
 object X86Asm {
-  abstract sealed class id_or_imm()
+  abstract sealed class id_or_imm
   case class V(a:Id.T) extends id_or_imm
   case class C(a:Int) extends id_or_imm
 
@@ -13,7 +13,7 @@ object X86Asm {
   case class Let(a:(Id.T, Type.T), b:Exp, c:T) extends T
   case class Forget(a:Id.T, b:T) extends T // Spillされた変数を、自由変数の計算から除外するための仮想命令 (caml2html: sparcasm_forget)
 
-  sealed abstract case class Exp // 一つ一つの命令に対応する式 (caml2html: sparcasm_exp)
+  sealed abstract class Exp // 一つ一つの命令に対応する式 (caml2html: sparcasm_exp)
   case class Nop() extends Exp
   case class SET(a:Int) extends Exp
   case class SETL(a:Id.L) extends Exp

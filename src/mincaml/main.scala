@@ -123,12 +123,12 @@ object Main {
   /**
    * バッファをコンパイルしてチャンネルへ出力する
    */
-  def lexbuf(outchan:PrintWriter, inchan:Any):Unit = {
+  def lexbuf(outchan:PrintWriter, inchan:String):Unit = {
 
     Id.counter = 0
     Typing.extenv = Map()
 
-    val ast:Syntax.T = Parse.g(inchan)
+    val ast:Syntax.T = Parse(inchan)
     val typedAst:Syntax.T = Typing(ast); println("typedAst "+typedAst)
     val knormal:KNormal.T = KNormal(typedAst); println("knormal "+knormal)
     val alpha:KNormal.T = Alpha(knormal); println("alpha "+ alpha)

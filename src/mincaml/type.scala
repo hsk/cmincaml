@@ -1,6 +1,6 @@
 package mincaml;
 object Type {
-  sealed abstract case class T()
+  sealed abstract class T()
   case class Unit() extends T
   case class Bool() extends T
   case class Int() extends T
