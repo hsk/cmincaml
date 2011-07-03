@@ -124,7 +124,7 @@ object Main {
    * バッファをコンパイルしてチャンネルへ出力する
    */
   def lexbuf(outchan:PrintWriter, inchan:String):Unit = {
-
+println(inchan)
     Id.counter = 0
     Typing.extenv = Map()
 
@@ -150,11 +150,14 @@ object Main {
     val inchan = new FileReader(f + ".ml")
     var buf = Array[Char](1024);
     var str = new StringBuilder();
-    while (true) {
+    var flg = true;
+    while (flg) {
       val len = inchan.read(buf)
-      str.appendAll(buf, 0, len)
+      if (len <= 0) {
+        flg = false;
+      } else str.appendAll(buf, 0, len)
     }
-
+    println("'"+str+"'");
     val outchan = new FileWriter(f + ".s")
     try {
       lexbuf(new PrintWriter(new BufferedWriter(outchan)), str.toString())

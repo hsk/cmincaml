@@ -19,13 +19,13 @@ object Compact {
     var connectf = true
     val tokens = for(i <- Stream.from(0)) yield {
       def t ():Any = {
-        val num = """^([0-9]+)(.*$)""".r
-        val sym = """^'([^-\+*\/\(\)\[\]\{\}\s\=\;\:<,]+)(.*$)""".r
-        val ptn = """^([-\+*\/\=<]+|[\:\(\)\[\]\{\},]|[^-\+*\/\(\)\[\]\{\}\s\=\;\:<,]+|$)(.*$)""".r
-        val eol = """^(;)(.*$)""".r
-        val spc1 = """^[\s]*[\r\n]+[\s]*(.*$)""".r
-        val spc = """^[\s]+(.*$)""".r
-        val eof = """^[\s]*($)""".r
+        val num = """(?s)^([0-9]+)(.*$)""".r
+        val sym = """(?s)^'([^-\+*\/\(\)\[\]\{\}\s\=\;\:<,]+)(.*$)""".r
+        val ptn = """(?s)^([-\+*\/\=<]+|[\:\(\)\[\]\{\},]|[^-\+*\/\(\)\[\]\{\}\s\=\;\:<,]+|$)(.*$)""".r
+        val eol = """(?s)^(;)(.*$)""".r
+        val spc1 = """(?s)^[\s]*[\r\n]+[\s]*(.*$)""".r
+        val spc = """(?s)^[\s]+(.*$)""".r
+        val eof = """(?s)^[\s]*($)""".r
         str match {
           case eol(a,e) => str = e; connectf = false; a
           case eof(e) => str = ""; Nil
@@ -34,7 +34,7 @@ object Compact {
           case ptn(a,e) => str = e; a
           case spc1(e) => str = e; connectf = false; t()
           case spc(e) => str = e; t()
-          case _ => throw new Error("error")
+          case _ => throw new Error("error '"+str+"'")
         }
       }
       connectf = true

@@ -41,11 +41,11 @@ object Parse {
       LetTuple(bb ,g(a), g(c))
     case ("array", "(", a, ",", b, ")") => Array(g(a), g(b))
     case ((a, "[", b, "]"),"=", c) => Put(g(a), g(b), g(c))
-    case (a, "=", b) => App(g(a), exps(b))
+    case (a, "(", b,")") => App(g(a), exps(b))
     case (a, "[", b, "]") => Get(g(a), g(b))
   }
   def exps(x:Any):List[T] = x match {
-    case (a, "in", b) => exps(a):::exps(b)
+    case (a, ",", b) => exps(a):::exps(b)
     case a => List(g(a))
   }
   def paramlist(x:Any):List[(Id.T,Type.T)] = x match {
