@@ -1,8 +1,8 @@
 package mincaml;
-import mincaml.Syntax._;
 import compact.Compact;
 
 object Parse {
+  import mincaml.Syntax._;
   def apply(x:String):T = {
     val tree:Any = Compact.parse(x)
     g(tree)
@@ -35,13 +35,13 @@ object Parse {
           g(body)
         ), g(next)
       )
-    case (a, "=", b) => App(g(a), exps(b))
     case ("(", r@(a, ",", b) , ")") => Tuple(tuplelist(r))
     case (a, "=", ("let","(",b,")", c)) =>
       val bb = paramlist(b);
       LetTuple(bb ,g(a), g(c))
     case ("array", "(", a, ",", b, ")") => Array(g(a), g(b))
     case ((a, "[", b, "]"),"=", c) => Put(g(a), g(b), g(c))
+    case (a, "=", b) => App(g(a), exps(b))
     case (a, "[", b, "]") => Get(g(a), g(b))
   }
   def exps(x:Any):List[T] = x match {
